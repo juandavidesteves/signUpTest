@@ -1,10 +1,12 @@
 import { SignUp as SignUpModel} from "@/models";
+import { validationEmail, validationPassword, validationUsurname } from "@/utilities";
 import Visibility from '@mui/icons-material/Visibility';
 import VisibilityOff from '@mui/icons-material/VisibilityOff';
 import {
 	Box,
 	Button,
 	Container,
+	FormHelperText,
 	Grid,
 	IconButton,
 	InputAdornment,
@@ -22,7 +24,24 @@ const SignUp : React.FC<SignUpInterface> = () => {
 		Username: "",
 		Password: "",
 		Email: "",
-	  });	  
+	});
+
+	const [errorUsername, setErrorUsername] = useState({
+		error: false,
+		leyend: "",
+	});
+
+	const [errorPassword, setErrorPassword] = useState({
+		error: false,
+		leyend: "",
+	});
+
+	const [errorEmail, setErrorEmail] = useState({
+		error: false,
+		leyend: "",
+	});
+
+	
 	const [showPassword, setShowPassword] = useState(false);
 
   	const handleClickShowPassword = () => setShowPassword((show) => !show);
@@ -33,11 +52,36 @@ const SignUp : React.FC<SignUpInterface> = () => {
 	
 	  const dataLogin = (e: React.ChangeEvent<HTMLInputElement>) => {
 		setSignupData({ ...signupData, [e.target.name]: e.target.value });
+		switch (e.target.name) {
+			case "Username":
+				setErrorUsername({
+					error: !(validationUsurname.test(signupData.Username)),
+					leyend: validationUsurname.test(signupData.Username) ? "" : "User must be only letters and numbers, and min 4 && max 16"
+				});
+				break;
+			
+			case "Email":
+				setErrorEmail({
+					error: !(validationEmail.test(signupData.Email)),
+					leyend: validationEmail.test(signupData.Email) ? "" : "Must write correct email"
+				});
+				break;
+
+			case "Password":
+				setErrorPassword({
+					error: !(validationPassword.test(signupData.Email)),
+					leyend: validationPassword.test(signupData.Email) ? "" : "The password must have 8 characters, at least one digit, at least one lowercase, at least one uppercase, and at least one non-alphanumeric character."
+				})
+				break;
+		}
+		
+
 	  };
 	
 	  const handleSubmit = (e: React.FormEvent<HTMLInputElement>) => {
 		e.preventDefault();
 		console.log(signupData)
+
 	  };
 	  
 	return (
@@ -64,6 +108,8 @@ const SignUp : React.FC<SignUpInterface> = () => {
 								sx={{ mt: 2, mb: 1.5 }}
 								required
 								onChange={dataLogin}
+								error={errorUsername.error}
+								helperText= {errorUsername.leyend}
 							/>          
 							<TextField
 								name="Email"
@@ -74,6 +120,8 @@ const SignUp : React.FC<SignUpInterface> = () => {
 								sx={{ mt: 2, mb: 1.5 }}
 								required
 								onChange={dataLogin}
+								error={errorEmail.error}
+								helperText= {errorEmail.leyend}
 							/>          
 							<OutlinedInput
 								id="outlined-adornment-password"
@@ -95,8 +143,14 @@ const SignUp : React.FC<SignUpInterface> = () => {
 								label="Password"
 								fullWidth
 								required
-								onChange={dataLogin}						
+								onChange={dataLogin}			
+								error={errorPassword.error}
 							/>					
+								{!!errorPassword.error && (
+									<FormHelperText error id="accountId-error">
+									  {errorPassword.leyend}
+									</FormHelperText>
+								)}								
 							<Button
 								fullWidth
 								type="submit"
