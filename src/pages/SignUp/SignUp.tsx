@@ -18,7 +18,7 @@ import { useState } from "react";
 export interface SignUpInterface {}
 
 const SignUp : React.FC<SignUpInterface> = () => {
-	const [loginData, setLoginData] = useState<SignUpModel>({
+	const [signupData, setSignupData] = useState<SignUpModel>({
 		Username: "",
 		Password: "",
 		Email: "",
@@ -32,11 +32,12 @@ const SignUp : React.FC<SignUpInterface> = () => {
 	  };
 	
 	  const dataLogin = (e: React.ChangeEvent<HTMLInputElement>) => {
-		setLoginData({ ...loginData, [e.target.name]: e.target.value });
+		setSignupData({ ...signupData, [e.target.name]: e.target.value });
 	  };
 	
 	  const handleSubmit = (e: React.FormEvent<HTMLInputElement>) => {
 		e.preventDefault();
+		console.log(signupData)
 	  };
 	  
 	return (
@@ -55,7 +56,7 @@ const SignUp : React.FC<SignUpInterface> = () => {
 						</Typography>
 						<Box component="form" onSubmit={handleSubmit}>
 							<TextField
-								name="username"
+								name="Username"
 								margin="normal"
 								type="text"
 								fullWidth
@@ -65,7 +66,7 @@ const SignUp : React.FC<SignUpInterface> = () => {
 								onChange={dataLogin}
 							/>          
 							<TextField
-								name="email"
+								name="Email"
 								margin="normal"
 								type="text"
 								fullWidth
@@ -76,6 +77,7 @@ const SignUp : React.FC<SignUpInterface> = () => {
 							/>          
 							<OutlinedInput
 								id="outlined-adornment-password"
+								name="Password"
 								type={showPassword ? 'text' : 'password'}
 								endAdornment={
 								<InputAdornment position="end">
@@ -92,7 +94,8 @@ const SignUp : React.FC<SignUpInterface> = () => {
 								sx={{ mt: 1.5, mb: 1.5 }}
 								label="Password"
 								fullWidth
-								required						
+								required
+								onChange={dataLogin}						
 							/>					
 							<Button
 								fullWidth
