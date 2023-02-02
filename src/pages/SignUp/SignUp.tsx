@@ -25,25 +25,19 @@ const SignUp : React.FC<SignUpInterface> = () => {
 		Password: "",
 		Email: "",
 	});
-
 	const [errorUsername, setErrorUsername] = useState({
 		error: false,
 		leyend: "",
 	});
-
 	const [errorPassword, setErrorPassword] = useState({
 		error: false,
 		leyend: "",
 	});
-
 	const [errorEmail, setErrorEmail] = useState({
 		error: false,
 		leyend: "",
-	});
-
-	
+	});	
 	const [showPassword, setShowPassword] = useState(false);
-
   	const handleClickShowPassword = () => setShowPassword((show) => !show);
 	
 	const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -56,7 +50,7 @@ const SignUp : React.FC<SignUpInterface> = () => {
 			case "Username":
 				setErrorUsername({
 					error: !(validationUsurname.test(signupData.Username)),
-					leyend: validationUsurname.test(signupData.Username) ? "" : "User must be only letters and numbers, and min 4 && max 16"
+					leyend: validationUsurname.test(signupData.Username) ? "" : "The username must have at least 4 characters max 16, and only letters and numbers"
 				});
 				break;
 			
@@ -69,8 +63,8 @@ const SignUp : React.FC<SignUpInterface> = () => {
 
 			case "Password":
 				setErrorPassword({
-					error: !(validationPassword.test(signupData.Email)),
-					leyend: validationPassword.test(signupData.Email) ? "" : "The password must have 8 characters, at least one digit, at least one lowercase, at least one uppercase, and at least one non-alphanumeric character."
+					error: !(validationPassword.test(signupData.Password)),
+					leyend: validationPassword.test(signupData.Password) ? "" : "The password must have at least 8 characters and a maximum of 16 characters, at least one digit, at least one lowercase, at least one uppercase, and at least one non-alphanumeric character."
 				})
 				break;
 		}
