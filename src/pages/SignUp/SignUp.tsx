@@ -1,4 +1,4 @@
-import { useField } from "../../hooks";
+import { useField } from "@/hooks";
 
 export interface SignUpInterface {}
 
